@@ -1,0 +1,58 @@
+<div class="card">
+    <div class="card-holder">
+        <button class="btn" (click)="getCustomerFromSearch()">Search</button>
+    </div>
+  </div>
+  <form #userForm="ngForm">
+    <hr />
+      <div class="form-group row">
+          <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" (ngModelChange)="changeState()" id="firstName" name="firstName" placeholder="First Name" required #firstName="ngModel" [(ngModel)]="customerModel.firstName">
+                <div *ngIf="confirmEmail.errors?.required">First Name is required. </div>
+          </div>
+      </div>
+      <pre></pre>
+      <div class="form-group row">
+          <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" (ngModelChange)="changeState()" id="lastName" name="lastName" placeholder="Last Name" required #lastName="ngModel" [(ngModel)]="customerModel.lastName">
+                <div *ngIf="lastName.errors?.required">Last Name is required. </div>
+          </div>
+      </div>
+      <pre></pre>
+      <div class="form-group row">
+          <label for="email" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" (ngModelChange)="changeState()" id="email" name="email" placeholder="Email" [(ngModel)]="customerModel.email" required #email="ngModel" pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}">
+            <div *ngIf="email.invalid &&  email.touched" class="alert alert-danger"></div>
+                <div *ngIf="email.errors?.required"> Email is required. </div>
+                <div *ngIf="email.errors?.pattern">Must follow proper email format </div>
+          </div>
+      </div> 
+      <pre></pre>
+      <div class="form-group row">
+        <label for="confirmEmail" class="col-sm-2 col-form-label">Confirm Email</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" (ngModelChange)="changeState()" id="confirmEmail" name="confirmEmail" placeholder="Confirm Email" [(ngModel)]="customerModel.confirmEmail" required #confirmEmail="ngModel" pattern="{{ email.value }}">
+          <div *ngIf="confirmEmail.invalid &&  confirmEmail.touched" class="alert alert-danger">
+                <div *ngIf="confirmEmail.errors?.required">Confirm Email is required. </div>
+                <div *ngIf="confirmEmail.errors?.pattern">Email and Confirm email must match </div>
+          </div>
+        </div>
+    </div>
+      <pre></pre>
+      <pre></pre>
+      <hr />
+      <app-address *ngFor="let addrs of remainingAddresses()" (addressDeleted)="deleteAddress($event)" (addressAdded)="addAddress($event)" (changeParentState)="changeParentState($event)" name="add" [addressModel]="addrs"></app-address>
+  </form>
+  
+  <div class="row">
+    <button type="submit" (click)="saveCustomer()" class="btn btn-dark">Save Customer</button>
+  </div>
+  <pre></pre>
+  <div class="row">
+    <button type="button" (click)="deleteCustomer()" class="btn btn-dark">Delete Customer</button>
+  </div>
+  <pre></pre>
+  

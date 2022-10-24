@@ -1,0 +1,13 @@
+<pre></pre>
+<div class="row">
+    <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" (ngModelChange)="changeState()"  id="phone" name="phone" placeholder="Phone" [(ngModel)]="phoneModel.phoneNumber" >
+    </div>
+    <div class="col-sm-2">
+        <button type="button" (click)="addPhone()" class="btn btn-primary" >Add Another Phone</button>
+    </div>
+    <div class="col-sm-2">
+        <button type="button" (click)="deletePhone()" class="btn btn-primary">Delete Phone</button>
+    </div> 
+</div>

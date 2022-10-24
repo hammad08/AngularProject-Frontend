@@ -1,0 +1,55 @@
+<form>
+    <div class="form-group">
+      <label for="addressType" class="col-sm-2 col-form-label">Address Type</label>
+      <input type="radio" value="Work" name="type" (ngModelChange)="changeState()" required #work="ngModel" [(ngModel)]="addressModel.addressType"> Work
+      <input type="radio" value="Home" name="type" (ngModelChange)="changeState()" required #home="ngModel"[(ngModel)]="addressModel.addressType"> Home
+      <input type="radio" value="Other" name="type" (ngModelChange)="changeState()" required #other="ngModel"[(ngModel)]="addressModel.addressType"> Other
+      <div *ngIf="work.errors?.required || home.errors?.required || other.errors?.required "> Address Type is required </div>
+  </div>
+      <div class="form-group row">
+          <label for="street1" class="col-sm-2 col-form-label">Address Street 1</label>
+          <div class="col-sm-10">
+          <input type="text" class="form-control" (ngModelChange)="changeState()" required #street1="ngModel" id="street1" name="street1" placeholder="Address 1" [(ngModel)]="addressModel.street1">
+            <div *ngIf="street1.errors?.required">Street Address 1 is required. </div>
+          </div>
+      </div>
+      <pre></pre>
+      <div class="form-group row">
+          <label for="street2" class="col-sm-2 col-form-label">Address Street 2</label>
+          <div class="col-sm-10">
+          <input type="text" class="form-control" (ngModelChange)="changeState()" id="street2" name="street2" placeholder="Address 2" [(ngModel)]="addressModel.street2">
+          </div>
+      </div>
+      <pre></pre>
+      <div class="row">
+          <div class="form-group col-md-4">
+            <label for="city">City</label>
+            <input type="text" class="form-control" (ngModelChange)="changeState()" name="city" id="city" [(ngModel)]="addressModel.city">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="state">State</label>
+            <select id="state" name="state" class="form-control" (ngModelChange)="changeState()" [(ngModel)]="addressModel.state">
+              <option *ngFor="let item of ['Punjab', 'Sindh','KPK','Balochistan']">{{item}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="zip">Zipcode</label>
+            <input type="text" class="form-control" (ngModelChange)="changeState()" id="zip" name="zip" required #zipcode="ngModel" [(ngModel)]="addressModel.zipcode">
+            <div *ngIf="zipcode.errors?.required">Zipcode is required. </div>
+        </div>
+      </div>
+      <app-phone *ngFor="let ph of remainingPhones()" (phoneDeleted)="deletePhone($event)" (phoneAdded)="addPhone($event)" (changeParentStatePhone)="changeParentStatePhone($event)" [phoneModel]="ph" ></app-phone>
+      <hr />
+      <pre></pre>
+      <div class="row">
+          <div class="col-sm-3">
+              <button type="button" (click)="addAddress()" class="btn btn-primary">Add Another Address</button>
+          </div>
+          <div class="col-sm-2">
+              <button type="button" (click)="deleteAddress()" class="btn btn-primary">Delete Address</button>
+          </div>
+      </div>
+      <pre></pre>
+  </form>
+  
+  
