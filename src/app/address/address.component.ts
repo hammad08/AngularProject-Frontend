@@ -1,7 +1,11 @@
 import { Address } from "src/app/Models/address";
-import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy,Output,EventEmitter, ViewChild } from '@angular/core';
 import { Phone } from "src/app/Models/phone";
 import { State } from "../Models/BaseClass";
+import { AbstractControl, NgForm } from "@angular/forms";
+import 'src/app/extensions/ng-form.extentions';
+
+
 
 @Component({
   selector: 'app-address',
@@ -14,8 +18,11 @@ export class AddressComponent implements OnInit {
   @Input() public addressModel: Address = new Address(1,"Home","katchery road","babar market","Lahore","Punjab","54000",1, [ new Phone(0,'',0)]);
   @Output() addressDeleted=new EventEmitter<Address>();
   @Output() addressAdded=new EventEmitter<boolean>();
-  @Output() changeParentState= new EventEmitter<boolean>();
+  @ViewChild ('addressForm') addForm: any;
+
   private detector: ChangeDetectorRef;
+  controls: AbstractControl[] = [];
+
   constructor(detector: ChangeDetectorRef) {
     this.detector = detector;
    }
@@ -23,8 +30,28 @@ export class AddressComponent implements OnInit {
     console.log(this.addressModel);
   }
 
+  ngAfterViewInit(): void{
+    console.log('hhh'+this.addForm.value);
+    console.log("here");
+    console.log('ttt: '+this.addForm.valid);
+    this.controls = this.addForm.getAllControls();
+    console.log("After get All: "+ JSON.stringify(this.controls));
+
+  }
+
+
 
   deletePhone(phone: Phone){
+    if(phone.phoneId==0)
+    {
+      let value= this.addressModel.phones.indexOf(phone);
+      if(value> -1)
+      {
+        this.addressModel.phones.splice(value,1);
+      }
+    }
+    this.controls = this.addForm.getAllControls();
+    console.log("After get All: "+ this.controls[0]);
     this.detector.detectChanges();
   }
 
@@ -39,7 +66,10 @@ export class AddressComponent implements OnInit {
 
   addPhone(status: boolean)
   {
-    this.addressModel.phones.push(new Phone(0,'',0))
+    let phone: Phone= new Phone(0,'',0);
+    phone.stateEnum= State.Added;
+    this.addressModel.phones.push(phone);
+    this.detector.detectChanges();
   }
 
   addAddress()
@@ -49,12 +79,19 @@ export class AddressComponent implements OnInit {
 
   changeState()
   {
-    this.addressModel.stateEnum= State.Modified;
-    this.changeParentState.emit(true);
+    if(this.addressModel.stateEnum==State.Added)
+    {
+      return;
+    }
+    else
+    {
+      this.addressModel.stateEnum= State.Modified;
+    }
   }
-  changeParentStatePhone(value: boolean)
+
+  addressForm()
   {
-    this.addressModel.stateEnum= State.Modified;
-    this.changeParentState.emit(true);
+    console.log(this.addForm.value); 
   }
+  
 }

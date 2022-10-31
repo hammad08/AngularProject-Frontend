@@ -12,7 +12,6 @@ export class PhoneComponent implements OnInit {
 
   @Output() phoneDeleted = new EventEmitter<Phone>()
   @Output() phoneAdded=new EventEmitter<boolean>()
-  @Output() changeParentStatePhone= new EventEmitter<boolean>()
   @Input() public phoneModel: Phone = new Phone(1,"0333453245",1)
   constructor() { }
   ngOnInit(): void {
@@ -30,8 +29,14 @@ export class PhoneComponent implements OnInit {
 
   changeState()
   {
-    this.phoneModel.stateEnum = State.Modified;
-    this.changeParentStatePhone.emit(true);
+    if(this.phoneModel.stateEnum==State.Added)
+    {
+      return;
+    }
+    else
+    {
+      this.phoneModel.stateEnum = State.Modified;
+    }
   }
 
 }

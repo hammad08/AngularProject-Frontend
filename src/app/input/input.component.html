@@ -3,13 +3,14 @@
         <button class="btn" (click)="getCustomerFromSearch()">Search</button>
     </div>
   </div>
-  <form #userForm="ngForm">
+
+<form #userForm="ngForm">
     <hr />
       <div class="form-group row">
           <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" (ngModelChange)="changeState()" id="firstName" name="firstName" placeholder="First Name" required #firstName="ngModel" [(ngModel)]="customerModel.firstName">
-                <div *ngIf="confirmEmail.errors?.required">First Name is required. </div>
+                <div *ngIf="firstName.errors?.required">First Name is required. </div>
           </div>
       </div>
       <pre></pre>
@@ -44,15 +45,17 @@
       <pre></pre>
       <pre></pre>
       <hr />
-      <app-address *ngFor="let addrs of remainingAddresses()" (addressDeleted)="deleteAddress($event)" (addressAdded)="addAddress($event)" (changeParentState)="changeParentState($event)" name="add" [addressModel]="addrs"></app-address>
-  </form>
+      <app-address *ngFor="let addrs of remainingAddresses()" (addressDeleted)="deleteAddress($event)" (addressAdded)="addAddress($event)" name="add" [addressModel]="addrs"></app-address>
+  
   
   <div class="row">
-    <button type="submit" (click)="saveCustomer()" class="btn btn-dark">Save Customer</button>
+    <button type="submit" (click)="saveCustomer()" class="btn btn-dark" [title]="userForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+    [disabled]="!userForm.valid">Save Customer</button>
   </div>
   <pre></pre>
   <div class="row">
     <button type="button" (click)="deleteCustomer()" class="btn btn-dark">Delete Customer</button>
   </div>
   <pre></pre>
+</form>
   

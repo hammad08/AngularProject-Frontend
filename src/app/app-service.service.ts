@@ -19,16 +19,10 @@ export class AppServiceService {
     return customer;
   }
 
-  saveCustomer(customer: Customer){
-   if(customer.customerId==0)
-   {  
-    this.addCustomer(customer);
-    alert("Customer Saved :: Success !!")
-   }
-   else
-   {
-    this.updateCustomer(customer);
-   }
+  saveCustomer(customer: Customer): Observable<Customer>{
+    let cust= this.httpClient.post<Customer>(this.apiUrl + '/customers/', customer);
+    console.log(cust);
+    return cust;
   }
 
   deleteCustomer(customer: Customer)
@@ -37,13 +31,7 @@ export class AppServiceService {
     },(err:HttpErrorResponse)=>{console.error(err.message);});
   }
 
-  updateCustomer(customer: Customer)
-  {
-    console.log("before request")
-    console.log(customer);
-    return this.httpClient.put<Customer>(this.apiUrl + '/customers/'+customer.customerId, customer).subscribe((res) => {
-    },(err:HttpErrorResponse)=>{console.error(err.message);});
-  }
+  
 
   addCustomer(customer: Customer)
   {

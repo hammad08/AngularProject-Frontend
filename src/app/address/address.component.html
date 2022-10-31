@@ -1,4 +1,5 @@
-<form>
+  <form #addressForm="ngForm" ngControl="addressForm">
+  <div>
     <div class="form-group">
       <label for="addressType" class="col-sm-2 col-form-label">Address Type</label>
       <input type="radio" value="Work" name="type" (ngModelChange)="changeState()" required #work="ngModel" [(ngModel)]="addressModel.addressType"> Work
@@ -38,9 +39,10 @@
             <div *ngIf="zipcode.errors?.required">Zipcode is required. </div>
         </div>
       </div>
-      <app-phone *ngFor="let ph of remainingPhones()" (phoneDeleted)="deletePhone($event)" (phoneAdded)="addPhone($event)" (changeParentStatePhone)="changeParentStatePhone($event)" [phoneModel]="ph" ></app-phone>
+      <app-phone *ngFor="let ph of remainingPhones()" (phoneDeleted)="deletePhone($event)" (phoneAdded)="addPhone($event)" [phoneModel]="ph" ></app-phone>
       <hr />
       <pre></pre>
+
       <div class="row">
           <div class="col-sm-3">
               <button type="button" (click)="addAddress()" class="btn btn-primary">Add Another Address</button>
@@ -50,6 +52,6 @@
           </div>
       </div>
       <pre></pre>
-  </form>
-  
+    </div>
+</form>
   
