@@ -18,7 +18,6 @@ export class AddressComponent implements OnInit {
   @Input() public addressModel: Address = new Address(1,"Home","katchery road","babar market","Lahore","Punjab","54000",1, [ new Phone(0,'',0)]);
   @Output() addressDeleted=new EventEmitter<Address>();
   @Output() addressAdded=new EventEmitter<boolean>();
-  @ViewChild ('addressForm') addForm: any;
 
   private detector: ChangeDetectorRef;
   controls: AbstractControl[] = [];
@@ -30,17 +29,6 @@ export class AddressComponent implements OnInit {
     console.log(this.addressModel);
   }
 
-  ngAfterViewInit(): void{
-    console.log('hhh'+this.addForm.value);
-    console.log("here");
-    console.log('ttt: '+this.addForm.valid);
-    this.controls = this.addForm.getAllControls();
-    console.log("After get All: "+ JSON.stringify(this.controls));
-
-  }
-
-
-
   deletePhone(phone: Phone){
     if(phone.phoneId==0)
     {
@@ -50,7 +38,6 @@ export class AddressComponent implements OnInit {
         this.addressModel.phones.splice(value,1);
       }
     }
-    this.controls = this.addForm.getAllControls();
     console.log("After get All: "+ this.controls[0]);
     this.detector.detectChanges();
   }
@@ -87,11 +74,6 @@ export class AddressComponent implements OnInit {
     {
       this.addressModel.stateEnum= State.Modified;
     }
-  }
-
-  addressForm()
-  {
-    console.log(this.addForm.value); 
   }
   
 }

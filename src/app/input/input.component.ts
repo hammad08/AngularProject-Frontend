@@ -18,7 +18,6 @@ export class InputComponent implements OnInit {
 
   private detector: ChangeDetectorRef;
   public confirmEmail: string='';
-  @ViewChild (AddressComponent) addForm!: AddressComponent;
 
   customerModel = new Customer(0,"","","","");
   AppService: AppServiceService;
@@ -33,13 +32,6 @@ export class InputComponent implements OnInit {
     
   }
 
-  checkInputs()
-  {
-    if (!this.addForm) {
-      console.log(this.addForm)
-      console.log("child has missing inputs");
-    }
-  }
 
   getCustomerFromSearch() {
     this.AppService.getCustomer(this.customerModel.firstName, this.customerModel.lastName).subscribe(
